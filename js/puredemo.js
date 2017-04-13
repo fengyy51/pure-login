@@ -292,16 +292,16 @@ var submitYanzheng = function() {
     // console.log(form.elements["name"]);
     // geshi();
     
- 
-    EventUtil.addHandler(form, "submit", function(event) {
+ 	form.addEventListener("submit",function(event){
+    // EventUtil.addHandler(form, "submit", function(event) {
     	// geshi();
     	// yanZheng();
     	// alert("d");
-        event = EventUtil.getEvent(event);
-        var target=EventUtil.getTarget(event);
+        // event = EventUtil.getEvent(event);
+        // var target=EventUtil.getTarget(event);
         var btn=target.elements["submit-btn"];
         if (!validateForm() || !geshi()) {
-            EventUtil.preventDefault(event);
+            event.preventDefault();
         }
         // btn.disabled=true;
         // if(geshi()){
@@ -315,5 +315,5 @@ var submitYanzheng = function() {
 
 
 
-    })
+    },false);
 };
