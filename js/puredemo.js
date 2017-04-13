@@ -94,89 +94,163 @@ var EventUtil = {
     }
 
 };
-var datareceive;
+
 $(document).ready(function() {
 
-    // init();
+    init();
     submitYanzheng();
 });
 
-function init() {
+function init() {    
+    var $submit=document.getElementById("submit");
+    $submit.disabled=true;
     geshi();
-
 }
 
-function getJson() {
-    $.ajax({
-        url: "../json/login.json",
-        type: "GET",
-        dataType: "json",
-        success: function(data) {
 
-            var item = data.item;
-            datareceive = item;
-            // console.log(data.item[0].username);
-            // return item;
-            // for(var i=0;i<item.length;i++){
-            // 	yanZheng(item[i].username,item[i].password);
-            // 	console.log("ajax");
-            // }
-            console.log(datareceive);
-            return item;
-            // $.each(item,function(){
-            // 	// alert(i+""+value);
-            // 	yanZheng(this.username,this.password);
-            // 	// console.log("ajax");
-            // });
-        },
-        error: function(error) {
-            alert("false");
-            console.log(error);
-        }
-
-    });
-}
-var geshi = function(username, password) {
-    // alert("yan");
-    console.log(username);
+var geshi = function() {
     var form = document.getElementById("myForm");
     var $name = document.getElementById("name");
     var $password = document.getElementById("password");
-    var $nameerror = document.getElementById("nameerror");
-    var flag = 0;
-    var $name_rule = //;
-        $name.onblur = function() {
-            console.log($name.value);
-            var name = $name.value.toLowerCase();
+    var $error = document.getElementById("error");
+    var $submit=document.getElementById("submit");
+   	var flagname=0; 
+    var flagpassword=0;
+    var reflag=false;
+    $name.onchange = function() {
+    	
+        console.log($name.value);
+        $submit.disabled=false;
+        if(/[^\w]/.test($name.value)){
+        	var classVal = $error.getAttribute("class");
+            classVal = classVal.replace("hidden", "active");
+            $error.setAttribute("class", classVal);
+        	$error.innerHTML = "";
+            $error.append("用户名格式不对，应由字母数字组成");
 
-            if (flag == 0) {
-                console.log("false");
-                var classVal = $nameerror.getAttribute("class");
-                classVal = classVal.replace("hidden", "active");
-                $nameerror.setAttribute("class", classVal);
-                $nameerror.innerHTML = "";
-                $nameerror.append("用户名不匹配");
-            } else {
-                console.log("name is ture" + name.value);
-            }
-        };
-    EventUtil.addHandler($name, "onblur", function(event) {
-        alert("fa");
-        for (var i = 0; i < data.length; i++) {
-            username = data[i].username;
-            console.log(username);
-            console.log(name.value);
-            if (name.value == username) {
-                flag = 1;
-            }
         }
-        if (flag == 0) {
-            console.log("false");
-        } else {
-            console.log("name is ture" + name.value);
-        }
-    })
+        else{ 
 
+         	if((/^[a-zA-Z0-9_-]{3,6}$/).test($name.value)){
+         		var classVal = $error.getAttribute("class");
+        		classVal = classVal.replace("active", "hidden");
+                $error.setAttribute("class", classVal);
+                $error.innerHTML = "";
+                flagname=1;
+        	}
+        	else{
+        		var classVal = $error.getAttribute("class");
+                 classVal = classVal.replace("hidden", "active");
+              	 $error.setAttribute("class", classVal);
+        		$error.innerHTML = "";
+            	$error.append("用户名数量不对，应由3-6位组成");
+        	}
+        }
+        if(flagname==0){
+        	
+        	$name.style.borderColor="#e9322d";
+        	// $name.style.outlineColor="#e9322d";
+        }
+        else{
+        	$name.style.borderColor="#ccc";
+        	flagname=0;
+   			// $name.style.outlineColor="#ccc";
+        }
+        
+     
+    }; 
+    
+     $password.onchange = function() {
+        console.log($password.value);
+        $submit.disabled=false;
+        if(/[^\w]/.test($password.value)){
+        	var classVal = $error.getAttribute("class");
+            classVal = classVal.replace("hidden", "active");
+            $error.setAttribute("class", classVal);
+        	$error.innerHTML = "";
+            $error.append("密码格式不对，应由字母数字组成");
+        }
+        else{ 
+
+         	if((/^[a-zA-Z0-9_-]{3,6}$/).test($password.value)){
+         		var classVal = $error.getAttribute("class");
+        		classVal = classVal.replace("active", "hidden");
+                $error.setAttribute("class", classVal);
+                $error.innerHTML = "";
+                flagpassword=1;
+        	}
+        	else{
+        		var classVal = $error.getAttribute("class");
+                 classVal = classVal.replace("hidden", "active");
+              	 $error.setAttribute("class", classVal);
+        		$error.innerHTML = "";
+            	$error.append("密码数量不对，应由3-6位组成");
+        	}
+        }
+         if(flagpassword==0){
+        	
+        	$password.style.borderColor="#e9322d";
+        	// $name.style.outlineColor="#e9322d";
+        }
+        else{
+        	$password.style.borderColor="#ccc";
+        	flagpassword=0;
+   			// $name.style.outlineColor="#ccc";
+        }
+        var flag=0;
+         $.ajax({
+            url: "../json/login.json",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+            	// alert("yanpas");
+                var datareceive = data.item;              
+                console.log(datareceive);
+                console.log(datareceive.length);
+                for(var i=0;i<datareceive.length;i++){
+                	var username = datareceive[i].username.toLowerCase();
+                    var password = datareceive[i].password.toLowerCase();
+                    var nameval = $name.value.toLowerCase();
+                    var passwordval = $password.value.toLowerCase();
+                    console.log(username);
+                    console.log($name.value);
+                     if (in_array(nameval, username)) {
+                    	if(in_array(passwordval,password))
+                        flag = 1;
+                    }
+                    
+                }
+                if($error.innerHTML == ""){
+
+                if (flag == 0) {
+                        var classVal = $error.getAttribute("class");
+                        classVal = classVal.replace("hidden", "active");
+                        $error.setAttribute("class", classVal);
+                        $error.innerHTML = "";
+                        $error.append("用户名与密码不匹配");
+                       // return false;
+                    } else {
+                        alert("登陆成功"+nameval);
+                        reflag=true;
+                         flag=0;                        
+                        console.log("name is ture" + nameval);
+                        console.log("password is "+passwordval);
+                        // return true;
+                    }
+                
+               }
+            },
+            error: function(error) {
+                alert("false");
+                console.log(error);
+                // return false;
+            }
+
+        });
+    }; 
+    
+    return reflag;
+            
 
 };
 
@@ -195,128 +269,45 @@ function in_array(needle, haystack) {
     }
    
 }
-var yanZheng = function() {
-    // alert("yan");
 
-    var form = document.getElementById("myForm");
-    var $name = document.getElementById("name");
-    var $password = document.getElementById("password");
-    var $error = document.getElementById("error");
-    var flag = 0;
-    $password.onblur = function() {
-        // getJson();
-        // alert(item);
-        $.ajax({
-            url: "../json/login.json",
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-
-                var item = data.item;
-                datareceive = item;
-                // console.log(data.item[0].username);
-                // return item;
-                // for(var i=0;i<item.length;i++){
-                // 	yanZheng(item[i].username,item[i].password);
-                // 	console.log("ajax");
-                // }
-                console.log(datareceive);
-                console.log(datareceive.length);
-                for(var i=0;i<datareceive.length;i++){
-                	var username = datareceive[i].username.toLowerCase();
-                    var password = datareceive[i].password.toLowerCase();
-                    var nameval = $name.value.toLowerCase();
-                    var passwordval = $password.value.toLowerCase();
-                    console.log(username);
-                    console.log($name.value);
-                     if (in_array(nameval, username)) {
-                    	if(in_array(passwordval,password))
-                        flag = 1;
-
-                    }
-                    
-                }
-                if (flag == 0) {
-                        var classVal = $error.getAttribute("class");
-                        classVal = classVal.replace("hidden", "active");
-                        $error.setAttribute("class", classVal);
-                        $error.innerHTML = "";
-                        $error.append("用户名或者密码不匹配");
-                        return false;
-                    } else {
-                        alert("success");
-                        console.log("name is ture" + nameval);
-                        console.log("password is "+passwordval);
-                        return true;
-                    }
-                // $.each(datareceive, function(i,value) {
-                // 	console.log(value);
-                //     var username = this.username.toLowerCase();
-                //     var password = this.password.toLowerCase();
-                //     var nameval = $name.value.toLowerCase();
-                //     var passwordval = $password.value.toLowerCase();
-                //     console.log(username);
-                //     console.log($name.value);
-                //     // \
-                //     if (in_array(nameval, username)) {
-                //     	// if(in_array(passwordval,password))
-                //         flag = 1;
-
-                //     }
-                   
-                //     // };
-
-                // });
-                //  if (flag == 0) {
-                //         var classVal = $error.getAttribute("class");
-                //         classVal = classVal.replace("hidden", "active");
-                //         $error.setAttribute("class", classVal);
-                //         $error.innerHTML = "";
-                //         $error.append("用户名或者密码不匹配");
-                //         return false;
-                //     } else {
-                //         alert("success");
-                //         // console.log("name is ture" + nameval);
-                //         // console.log("password is "+passwordval);
-                //         return true;
-                //     }
-               
-            },
-            error: function(error) {
-                alert("false");
-                console.log(error);
-            }
-
-        });
-        // console.log(datareceive);
-
-
-
-
-    };
-
-};
 var validateForm = function() {
     var name = document.getElementById("name");
     var password = document.getElementById("password");
     if (name.value == null || name.value == "") {
-        alert("用户名不能为空");
+        // alert("用户名不能为空");
         return false;
     }
     if (password.value == null || password.value == "") {
-        alert("密码不能为空");
+        var classVal = $error.getAttribute("class");
+                 classVal = classVal.replace("hidden", "active");
+              	 $error.setAttribute("class", classVal);
+        		$error.innerHTML = "";
+            	$error.append("密码不能为空");
         return false;
     }
     return true;
 };
 var submitYanzheng = function() {
     var form = document.getElementById("myForm");
-    yanZheng();
+    // console.log(form.elements["name"]);
+    // geshi();
+    
+ 
     EventUtil.addHandler(form, "submit", function(event) {
+    	// geshi();
+    	// yanZheng();
+    	// alert("d");
         event = EventUtil.getEvent(event);
-        if (!validateForm() || !yanZheng()) {
+        var target=EventUtil.getTarget(event);
+        var btn=target.elements["submit-btn"];
+        if (!validateForm() || !geshi()) {
             EventUtil.preventDefault(event);
         }
+        // btn.disabled=true;
+        // if(geshi()){
+        // 	geshi();
+        // }       
+        return true;
         // if (!yanZheng()) {
         // 	EventUtil.preventDefault(event);
         // }
