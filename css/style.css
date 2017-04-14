@@ -3,40 +3,64 @@ body,html{
 	padding: 0;
 	min-width: 100%;
 	min-height: 100%;
-	font-family:"Microsoft YaHei"; 
+	font-family: "Microsoft YaHei",Helvetica,Arial,sans-serif;
+	color: #F6FBF9;
 }
 html{
 	background: url("../resource/img/backgrounds/1.jpg") no-repeat;
 	background-size: cover;
 }
 h2{
-	color: #F6FBF9;
-	margin-top: 3.5em;
+	
+	margin-top: 10%;
 	text-align: center;
-	letter-spacing: 1.5em;
+	letter-spacing: 0.5em;
+}
+h4{
+	margin-top: 3%;
+	text-align: center;
+	letter-spacing: 0.2em;
+	font-weight: normal;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2)
 }
 .pure-form-aligned .pure-control-group{
-	margin: 0.8em 0 2em 0;
+	margin-top: 4%;
 }
-.pure-form-aligned .pure-control-group label{
-	color: #474040;
-	width: 13%;
-	float: left;
-	margin: 0.5em 1em 0 1em;
-}
+
 .pure-form-aligned .pure-control-group input{
-	width: 65%;
+	width: 90%;
 	color: #fff;
 	box-shadow: none;
 	background: rgba(45,45,45,.15);
+	padding: 0 15px;
 	text-shadow:0 1px 2px rgba(0,0,0,.1); 
+	margin: 8% 5%  8% 5%;
+	padding: 0.5em 1em 0.5em 1em;
+	border-radius: 6px;
+}
+input:-webkit-autofill{
+	background-color:rgba(45,45,45,.15);
 }
 .pure-form-aligned .pure-controls button{
-	width: 80%;
-	text-align: center;
+	width: 90%;
+	cursor: pointer;
+	border-radius: 6px;
+	/* text-align: center; */
 	letter-spacing: 0.5em;
-	margin-left: 2em;
-	background-color:rgb(255, 115,14) ;
+	margin: 2% 5%  0 5%;
+	padding: 0.5em 1em 0.5em 1em;
+	background-color:rgba(6, 127,228,0.71) ;
+}
+.pure-form-aligned .pure-controls button#zhuce{
+	width: 90%;
+	color: #fff;
+	border-radius: 6px;
+	box-shadow: none;
+	background: rgba(45,45,45,.15);
+	padding: 0 15px;
+	text-shadow:0 1px 2px rgba(0,0,0,.1); 
+	margin-top:  1%;
+	padding: 0.5em 1em 0.5em 1em;
 }
 .error{
 	color:#D74C4C;
@@ -52,21 +76,15 @@ h2{
 	vertical-align: middle;
 	margin-left: 1em; 
 }
-@media only screen and (max-width: 360px){
-	.pure-form-aligned .pure-control-group label{
-	width: 15%;
-	float: left;
-	margin: 0.5em 1em 0 1em;
-}
-}
-@media only screen  and (width:732px ){
+
+/* @media only screen  and (width:732px ){
 	.pure-form-aligned .pure-controls button{
 	margin-right: 2em;
 	width: 70%;
 
 }
-}
-@media only screen and (min-width: 768px){
+} */
+/* @media only screen and (min-width: 768px){
 	h2{
 		margin: 3em 0 2em 0;
 	}
@@ -89,5 +107,3 @@ h2{
 	margin-left: 0;
 	width: 80%;
 	/* margin-right: 40em; */
-}
-}
